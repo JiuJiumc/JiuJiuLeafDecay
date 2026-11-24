@@ -1,0 +1,42 @@
+# 啾啾快速落叶：仅加速自然树叶，不砍树、不批量删除装饰。
+# persistent=true 的永久树叶始终保留，此保护不可关闭。
+enabled: true
+
+# 树干/树叶被有效挖掉后检查附近树叶；不会处理被其他插件取消的破坏。
+trigger-on-break: true
+# 响应自然树叶物理更新及原版落叶事件，覆盖后续连锁落叶。
+trigger-on-physics: true
+
+# 初次检查等待 tick，范围 8～200；20 tick 约为 1 秒。
+# 留出原版树叶到树干距离更新的时间，避免强制改写 distance。
+delay-ticks: 10
+# 破坏点周围的曼哈顿距离，范围 1～12；7 可覆盖原版树叶支撑链。
+scan-radius: 7
+# 每个活动区块每 tick 最多检查的坐标数，范围 8～256。
+checks-per-chunk-per-tick: 64
+# 同时工作的区块上限，范围 1～128；超额回退原版自然落叶。
+max-active-chunks: 32
+# 每区块最多排队的独立检查任务，范围 4～128；重复任务合并。
+max-jobs-per-chunk: 32
+# 排队区块最大存活秒数，范围 5～120；卸载或停滞的任务到期释放。
+# 超时仅停止加速，剩余树叶继续由原版自然处理；每 5 秒回收一次。
+queue-timeout-seconds: 30
+
+# 允许的世界名；空列表表示所有世界。禁用列表优先。
+enabled-worlds: []
+disabled-worlds: []
+# 不加速的树叶材质名，例如 OAK_LEAVES；空列表表示所有原版树叶。
+excluded-leaves: []
+
+# 管理权限默认仅 OP；可换成你自己的权限节点，并自行分配。
+admin-permission: jiujiuleafdecay.admin
+# 支持 & 颜色代码；修改后执行 /jjleaf reload。
+messages:
+  prefix: '&8[&a啾啾落叶&8] &r'
+  no-permission: '&c你没有管理快速落叶的权限。'
+  usage: '&e用法：/jjleaf status 或 /jjleaf reload'
+  reloading: '&e正在读取配置……'
+  busy: '&e配置正在重载，请稍候。'
+  reloaded: '&a配置已重载，旧队列已释放。'
+  reload-failed: '&c重载失败，继续使用原配置。请查看控制台。'
+  status: "&7启用：&f{enabled} &7| 活动区块：&f{chunks} &7| 排队：&f{jobs}\n&7已检查：&f{checks} &7| 已脱落：&a{decayed} &7| 超额回退：&e{overflow}"

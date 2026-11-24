@@ -1,0 +1,28 @@
+plugins { id 'java' }
+group = 'city.jiujiu'
+version = '1.0.0'
+repositories { mavenCentral() }
+java { toolchain.languageVersion = JavaLanguageVersion.of(25) }
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+    options.compilerArgs.add('-proc:none')
+}
+dependencies {
+    // 已核对的本地 Folia 26.2 API 及其编译依赖；不打入成品。
+    compileOnly fileTree('libraries') { include '*.jar' }
+    testImplementation fileTree('libraries') { include '*.jar' }
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.13.4'
+    testImplementation 'org.mockito:mockito-core:5.21.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+processResources {
+    inputs.property('version', project.version)
+    filesMatching('plugin.yml') { expand(version: project.version) }
+}
+jar {
+    archiveFileName = 'JiuJiuLeafDecay.jar'
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+test { useJUnitPlatform() }

@@ -1,0 +1,15 @@
+name: JiuJiuLeafDecay
+version: '${version}'
+main: city.jiujiu.leaf.JiuJiuLeafDecay
+api-version: '26.2'
+folia-supported: true
+description: 分区限速的自然树叶快速脱落，永久装饰树叶始终保留
+author: JiuJiu
+commands:
+  jjleaf:
+    description: 查看快速落叶状态或重新加载配置
+    usage: /jjleaf [status|reload]
+permissions:
+  jiujiuleafdecay.admin:
+    description: 管理快速落叶
+    default: op
